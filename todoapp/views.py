@@ -1,27 +1,12 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-from django.shortcuts import render
-
-from django.http import HttpResponse, Http404
-from django.template import loader
-
+from django.views import generic
 from .models import Task
-# Create your views here.
-def index(request):
-    task_list = Task.objects.all()
-    context = {
-        'task_list': task_list
-    }
-    return render(request, 'todoapp/index.html', context)
 
-def detail(request, task_id):
-    try:
-        task = Task.objects.get(pk=task_id)
-    except Task.DoesNotExist:
-        raise Http404 ('This task does not exist')
+class IndexView(generic.ListView):
+    template_name = 'todoapp/index.html'
 
-    context = {
-        'task': task
-    }
-    return render(request, 'todoapp/detail.html', context)
+    def get_queryset(self):
+        return Task.objects.all()
+
+class DetailView(generic.DetailView):
+    model = Task
+    template_name = 'todoapp/detail.html'

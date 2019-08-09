@@ -1,18 +1,37 @@
 <!DOCTYPE html>
-{%load staticfiles%}
+{% extends 'todoapp/base.html'%}
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title>To Do List</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'todoapp/styles.css'%}">
   </head>
   <body>
-    {%if task_list%}
-        <ul>
-        {%for task in task_list%}
-        <li><a href="{% url 'todoapp:detail' task.id %}">{{task.task_name}}</a></li>
-        {%endfor%}
-        </ul>
-    {%endif%}
+    {% block body%}
+    <div class = "container">
+      <h2>Today's List</h2>
+      <p>Lets get things Done!</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Task Name</th>
+            <th>Task Priority</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%if task_list%}
+
+            {%for task in object_list%}
+              <tr>
+              <td><li><a href="{% url 'todoapp:detail' task.id %}">{{task.task_name}}</a></li></td>
+              <td><strong>{{task.task_priority}}</strong></td>
+              <td><button type="submit" class="btn btn-success">Done</button></td>
+              </tr>
+            {%endfor%}
+          {%endif%}
+        </tbody>
+      </table>
+    </div>
+    {% endblock %}
   </body>
 </html>
